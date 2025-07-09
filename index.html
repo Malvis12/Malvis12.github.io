@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wellspring University GPA Calculator</title>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#3b82f6',secondary:'#64748b'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+font-family: 'Inter', sans-serif;
+background-color: #f9fafb;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+-webkit-appearance: none;
+margin: 0;
+}
+input[type="number"] {
+-moz-appearance: textfield;
+appearance: textfield;
+}
+.custom-checkbox {
+position: relative;
+display: inline-block;
+width: 20px;
+height: 20px;
+border: 2px solid #cbd5e1;
+border-radius: 4px;
+cursor: pointer;
+}
+.custom-checkbox.checked {
+background-color: #3b82f6;
+border-color: #3b82f6;
+}
+.custom-checkbox.checked::after {
+content: '';
+position: absolute;
+left: 6px;
+top: 2px;
+width: 5px;
+height: 10px;
+border: solid white;
+border-width: 0 2px 2px 0;
+transform: rotate(45deg);
+}
+.progress-bar {
+height: 8px;
+border-radius: 4px;
+background-color: #e2e8f0;
+overflow: hidden;
+}
+.progress-bar-fill {
+height: 100%;
+border-radius: 4px;
+transition: width 0.3s ease;
+}
+</style>
+</head>
+<body>
+<header class="bg-white shadow-sm">
+<div class="container mx-auto px-4 py-6">
+<div class="flex items-center justify-between">
+<div class="flex items-center">
+<img src="https://static.readdy.ai/image/783af8d842d70dcf714c4707a197994b/8915c2fcf32200a4455f57231ce4cd64.webp" alt="Welspring University Logo" class="w-12 h-12 object-contain">
+<div class="ml-4">
+<h1 class="text-2xl font-bold text-gray-900">WELLSPRING UNIVERSITY</h1>
+<h2 class="text-lg text-gray-600">GPA CALCULATOR</h2>
+</div>
+</div>
+<nav class="hidden md:flex space-x-6">
+<a href="https://wellspringuniversity.edu.ng/" data-readdy="true" class="text-gray-700 hover:text-primary transition-colors">Home</a>
+<a href="#" class="text-primary font-medium">GPA Calculator</a>
+<a href="https://wellspringuniversity.edu.ng/index.php/undergraduate-programs/#/" class="text-gray-700 hover:text-primary transition-colors">Academic Resources</a>
+<a href="info@wellspringuniversity.edu.ng" class="text-gray-700 hover:text-primary transition-colors">Contact</a>
+</nav>
+<button class="md:hidden w-10 h-10 flex items-center justify-center">
+<i class="ri-menu-line"></i>
+</button>
+</div>
+</div>
+</header>
+<main class="container mx-auto px-4 py-8">
+<div class="bg-white rounded-lg shadow-md p-6 mb-8">
+<div class="grid md:grid-cols-3 gap-6 mb-8">
+<div>
+<label for="studentName" class="block text-sm font-medium text-gray-700 mb-2">Student Name</label>
+<input type="text" id="studentName" class="w-full border border-gray-200 rounded p-2 text-sm" placeholder="Enter your full name">
+</div>
+<div>
+<label for="matricNo" class="block text-sm font-medium text-gray-700 mb-2">Matric No.</label>
+<input type="text" id="matricNo" class="w-full border border-gray-200 rounded p-2 text-sm uppercase" placeholder="Enter your matric number">
+</div>
+<div>
+<label for="department" class="block text-sm font-medium text-gray-700 mb-2">Department</label>
+<div class="relative">
+<select id="department" class="w-full appearance-none border border-gray-200 rounded p-2 pr-8 text-sm bg-white">
+<option value="" disabled selected>Select your department</option>
+<option value="Nursing">Nursing</option>
+<option value="Medical Laboratory Science">Medical Laboratory Science</option>
+<option value="Public Health">Public Health</option>
+<option value="Computer Science">Computer Science</option>
+<option value="Software Engineering">Software Engineering</option>
+<option value="Microbiology">Microbiology</option>
+<option value="Cyber Security">Cyber Security</option>
+<option value="Criminology">Criminology</option>
+<option value="Accounting">Accounting</option>
+<option value="Economics">Economics</option>
+<option value="Mass Communication">Mass Communication</option>
+<option value="International Relations and Diplomacy">International Relations and Diplomacy</option>
+<option value="Public Administration">Public Administration</option>
+<option value="Business Administration">Business Administration</option>
+<option value="Human Resource Management">Human Resource Management</option>
+</select>
+<div class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+<div class="w-4 h-4 flex items-center justify-center text-gray-500">
+<i class="ri-arrow-down-s-line"></i>
+</div>
+</div>
+</div>
+</div>
+<div>
+  <label for="level" class="block text-sm font-medium text-gray-700 mb-2">Level</label>
+  <div class="relative">
+    <select id="level" class="w-full appearance-none border border-gray-200 rounded p-2 pr-8 text-sm bg-white">
+      <option value="" disabled selected>Select your level</option>
+      <option value="100">100</option>
+      <option value="200">200</option>
+      <option value="300">300</option>
+      <option value="400">400</option>
+      <option value="500">500</option>
+    </select>
+    <div class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+      <div class="w-4 h-4 flex items-center justify-center text-gray-500">
+        <i class="ri-arrow-down-s-line"></i>
+      </div>
+    </div>
+  </div>
+</div>
+<div>
+  <label for="semester" class="block text-sm font-medium text-gray-700 mb-2">Semester</label>
+  <div class="relative">
+    <select id="semester" class="w-full appearance-none border border-gray-200 rounded p-2 pr-8 text-sm bg-white">
+      <option value="" disabled selected>Select your semester</option>
+      <option value="1">1st Semester</option>
+      <option value="2">2nd Semester</option>
+    </select>
+    <div class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+      <div class="w-4 h-4 flex items-center justify-center text-gray-500">
+        <i class="ri-arrow-down-s-line"></i>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<div class="border-b border-gray-200 mb-6"></div>
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-xl font-semibold text-gray-800">Course Information</h3>
+<div class="flex items-center">
+<span class="text-sm text-gray-600 mr-2">Total Courses: <span id="totalCourses">0</span></span>
+<span class="text-sm text-gray-600 ml-4">Total Credits: <span id="totalCredits">0</span></span>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full mb-4">
+<thead>
+<tr class="border-b border-gray-200">
+<th class="text-left py-3 px-4 font-semibold text-sm text-gray-700">Course Code</th>
+<th class="text-left py-3 px-4 font-semibold text-sm text-gray-700">Grade</th>
+<th class="text-left py-3 px-4 font-semibold text-sm text-gray-700">Actions</th>
+</tr>
+</thead>
+<tbody id="courseTable">
+<!-- Course rows will be added here -->
+</tbody>
+</table>
+</div>
+<button id="addCourseBtn" class="flex items-center text-primary hover:text-primary/80 transition-colors !rounded-button">
+<div class="w-5 h-5 flex items-center justify-center mr-1">
+<i class="ri-add-line"></i>
+</div>
+<span class="whitespace-nowrap">Add Course</span>
+</button>
+</div>
+<div class="grid md:grid-cols-3 gap-8">
+<div class="bg-white rounded-lg shadow-md p-6 md:col-span-2">
+<h3 class="text-xl font-semibold text-gray-800 mb-6">GPA Results</h3>
+<div class="mb-6">
+<div class="flex justify-between items-end mb-2">
+<span class="text-sm text-gray-600">Current GPA</span>
+<span id="gpaValue" class="text-3xl font-bold text-gray-900">0.00</span>
+</div>
+<div class="progress-bar">
+<div id="gpaProgressBar" class="progress-bar-fill bg-primary" style="width: 0%"></div>
+</div>
+<div class="flex justify-between text-xs text-gray-500 mt-1">
+<span>0.0</span>
+<span>5.0</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="bg-gray-50 p-4 rounded">
+<div class="text-sm text-gray-600 mb-1">Total Credit Units</div>
+<div id="resultTotalCredits" class="text-xl font-semibold text-gray-900">0</div>
+</div>
+<div class="bg-gray-50 p-4 rounded">
+<div class="text-sm text-gray-600 mb-1">Quality Points</div>
+<div id="qualityPoints" class="text-xl font-semibold text-gray-900">0.00</div>
+</div>
+</div>
+<div class="flex flex-wrap gap-3">
+<button id="calculateGpaBtn" class="bg-primary text-white px-4 py-2 !rounded-button hover:bg-primary/90 transition-colors whitespace-nowrap">
+Calculate GPA
+</button>
+<button id="resetBtn" class="bg-gray-200 text-gray-800 px-4 py-2 !rounded-button hover:bg-gray-300 transition-colors whitespace-nowrap">
+Reset
+</button>
+<button id="saveBtn" class="bg-white border border-gray-300 text-gray-700 px-4 py-2 !rounded-button hover:bg-gray-50 transition-colors whitespace-nowrap">
+<div class="flex items-center">
+<div class="w-4 h-4 flex items-center justify-center mr-1">
+<i class="ri-save-line"></i>
+</div>
+<span>Save</span>
+</div>
+</button>
+<button id="printBtn" class="bg-white border border-gray-300 text-gray-700 px-4 py-2 !rounded-button hover:bg-gray-50 transition-colors whitespace-nowrap">
+<div class="flex items-center">
+<div class="w-4 h-4 flex items-center justify-center mr-1">
+<i class="ri-printer-line"></i>
+</div>
+<span>Print</span>
+</div>
+</button>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-md p-6">
+<h3 class="text-xl font-semibold text-gray-800 mb-6">Calculate CGPA</h3>
+<div class="space-y-4">
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-2">Previous CGPA</label>
+    <input type="number" id="previousCGPA" class="w-full border border-gray-200 rounded p-2 text-sm" placeholder="Enter your previous CGPA" min="0" max="5" step="0.01">
+  </div>
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-2">Total Credits Completed</label>
+    <input type="number" id="previousCredits" class="w-full border border-gray-200 rounded p-2 text-sm" placeholder="Enter total credits completed" min="0">
+  </div>
+  <div class="pt-4">
+    <h4 class="font-medium text-gray-900 mb-4">New CGPA Results</h4>
+    <div class="bg-gray-50 p-4 rounded space-y-3">
+      <div class="flex justify-between items-center">
+        <span class="text-sm text-gray-600">Current Semester GPA</span>
+        <span id="currentGPA" class="font-semibold">0.00</span>
+      </div>
+      <div class="flex justify-between items-center">
+        <span class="text-sm text-gray-600">Current Semester Credits</span>
+        <span id="currentCredits" class="font-semibold">0</span>
+      </div>
+      <div class="border-t border-gray-200 my-2"></div>
+      <div class="flex justify-between items-center">
+        <span class="text-sm text-gray-600">New CGPA</span>
+        <span id="newCGPA" class="font-semibold text-primary">0.00</span>
+      </div>
+      <div class="flex justify-between items-center">
+        <span class="text-sm text-gray-600">Total Credits</span>
+        <span id="totalCumulativeCredits" class="font-semibold">0</span>
+      </div>
+    </div>
+  </div>
+  <button id="calculateCGPABtn" class="w-full bg-primary text-white px-4 py-2 !rounded-button hover:bg-primary/90 transition-colors mt-4">
+    Calculate CGPA
+  </button>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-md p-6">
+<h3 class="text-xl font-semibold text-gray-800 mb-6">GPA Scale Reference</h3>
+<div class="overflow-x-auto">
+<table class="w-full">
+<thead>
+<tr class="border-b border-gray-200">
+<th class="text-left py-2 px-4 font-semibold text-sm text-gray-700">Letter Grade</th>
+<th class="text-left py-2 px-4 font-semibold text-sm text-gray-700">Grade Points</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-gray-100">
+<td class="py-2 px-4 text-sm">A</td>
+<td class="py-2 px-4 text-sm">5.0</td>
+</tr>
+<tr class="border-b border-gray-100">
+<td class="py-2 px-4 text-sm">B</td>
+<td class="py-2 px-4 text-sm">4.0</td>
+</tr>
+<tr class="border-b border-gray-100">
+<td class="py-2 px-4 text-sm">C</td>
+<td class="py-2 px-4 text-sm">3.0</td>
+</tr>
+<tr class="border-b border-gray-100">
+<td class="py-2 px-4 text-sm">D</td>
+<td class="py-2 px-4 text-sm">2.0</td>
+</tr>
+<tr class="border-b border-gray-100">
+<td class="py-2 px-4 text-sm">E</td>
+<td class="py-2 px-4 text-sm">1.0</td>
+</tr>
+<tr>
+<td class="py-2 px-4 text-sm">F</td>
+<td class="py-2 px-4 text-sm">0.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-md p-6 mt-8">
+<h3 class="text-xl font-semibold text-gray-800 mb-4">Frequently Asked Questions</h3>
+<div class="space-y-4">
+<div>
+<h4 class="font-medium text-gray-900 mb-2">How is GPA calculated?</h4>
+<p class="text-gray-700 text-sm">GPA is calculated by dividing the total number of quality points earned by the total number of credit Units. Quality points are determined by multiplying the grade point value by the credit Units for each course.</p>
+</div>
+<div>
+<h4 class="font-medium text-gray-900 mb-2">What is considered a good GPA?</h4>
+<p class="text-gray-700 text-sm">At Welspring University, a GPA of 3.0 or higher is considered good. A GPA of 3.5 or higher is considered excellent and may qualify you for academic honors.</p>
+</div>
+<div>
+<h4 class="font-medium text-gray-900 mb-2">Can I improve my GPA?</h4>
+<p class="text-gray-700 text-sm">Yes, you can improve your GPA by earning higher grades in future courses. Some programs also allow you to retake courses to replace lower grades, but policies vary by department.</p>
+</div>
+<div>
+<h4 class="font-medium text-gray-900 mb-2">Are all courses counted in my GPA?</h4>
+<p class="text-gray-700 text-sm">Most credit-bearing courses count toward your GPA. However, courses taken pass/fail, transferred credits, or withdrawn courses typically do not affect your GPA calculation.</p>
+</div>
+</div>
+</div>
+</main>
+<footer class="bg-gray-800 text-white py-8 mt-12">
+<div class="container mx-auto px-4">
+<div class="flex flex-col md:flex-row justify-between">
+<div class="mb-6 md:mb-0">
+<div class="flex items-center">
+<img src="https://static.readdy.ai/image/783af8d842d70dcf714c4707a197994b/8915c2fcf32200a4455f57231ce4cd64.webp" alt="Welspring University Logo" class="w-10 h-10 object-contain">
+<div class="ml-3">
+<h3 class="font-bold">WELLSPRING UNIVERSITY</h3>
+<p class="text-sm text-gray-300">Knowledge, Truth and Righteousness </p>
+</div>
+</div>
+<p class="mt-4 text-sm text-gray-300 max-w-md">Wellspring University is dedicated to providing students with the tools and resources they need to succeed academically and professionally.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+<div>
+<h4 class="font-semibold mb-3">Quick Links</h4>
+<ul class="space-y-2 text-sm text-gray-300">
+<li><a href="https://wellspringuniversity.edu.ng/" class="hover:text-white transition-colors">Home</a></li>
+<li><a href="#" class="hover:text-white transition-colors">Academic Calendar</a></li>
+<li><a href="https://studentportal.wellspringuniversity.app/login" class="hover:text-white transition-colors">Student Portal</a></li>
+<li><a href="#" class="hover:text-white transition-colors">Library Resources</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-semibold mb-3">Resources</h4>
+<ul class="space-y-2 text-sm text-gray-300">
+<li><a href="#" class="hover:text-white transition-colors">GPA Calculator</a></li>
+<li><a href="https://wellspringuniversity.edu.ng/index.php/undergraduate-programs/#" class="hover:text-white transition-colors">Academic Advising</a></li>
+<li><a href="https://wellspringuniversity.edu.ng/" class="hover:text-white transition-colors">Tutoring Services</a></li>
+<li><a href="https://wellspringuniversity.edu.ng/index.php/vacancy/" class="hover:text-white transition-colors">Career Center</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-semibold mb-3">Contact</h4>
+<ul class="space-y-2 text-sm text-gray-300">
+<li class="flex items-center">
+<div class="w-4 h-4 flex items-center justify-center mr-2">
+<i class="ri-map-pin-line"></i>
+</div>
+<span>L.G.A, Irhirhi Rd, off Airport Road, Oka, Benin City 300102, Edo</span>
+</li>
+<li class="flex items-center">
+<div class="w-4 h-4 flex items-center justify-center mr-2">
+<i class="ri-phone-line"></i>
+</div>
+<span>(555) 123-4567</span>
+</li>
+<li class="flex items-center">
+<div class="w-4 h-4 flex items-center justify-center mr-2">
+<i class="ri-mail-line"></i>
+</div>
+<span>info@wellspringuniversity.edu.ng</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="border-t border-gray-700 mt-8 pt-6 flex flex-col md:flex-row justify-between items-center">
+<p class="text-sm text-gray-400">© 2025 Welspring University. All rights reserved.</p>
+<div class="flex space-x-4 mt-4 md:mt-0">
+<a href="https://web.facebook.com/wellspringuni" class="text-gray-400 hover:text-white transition-colors">
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-facebook-fill ri-lg"></i>
+</div>
+</a>
+<a href="#" class="text-gray-400 hover:text-white transition-colors">
+<div class="w-8 h-8 flex items-center justify-center">
+  <i class="ri-tiktok-fill ri-lg"></i>
+</div>
+</a>
+<a href="https://www.instagram.com/wellspring__university/" class="text-gray-400 hover:text-white transition-colors">
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-instagram-fill ri-lg"></i>
+</div>
+</a>
+<a href="#" class="text-gray-400 hover:text-white transition-colors">
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-linkedin-fill ri-lg"></i>
+</div>
+</a>
+</div>
+</div>
+</div>
+</footer>
+<div id="notification" class="fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg transform translate-x-full transition-transform duration-300 flex items-center">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-check-line"></i>
+</div>
+<span id="notificationText">Success!</span>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+const courseTable = document.getElementById('courseTable');
+const calculateCGPABtn = document.getElementById('calculateCGPABtn');
+const previousCGPAInput = document.getElementById('previousCGPA');
+const previousCreditsInput = document.getElementById('previousCredits');
+const currentGPASpan = document.getElementById('currentGPA');
+const currentCreditsSpan = document.getElementById('currentCredits');
+const newCGPASpan = document.getElementById('newCGPA');
+const totalCumulativeCreditsSpan = document.getElementById('totalCumulativeCredits');
+const addCourseBtn = document.getElementById('addCourseBtn');
+const calculateGpaBtn = document.getElementById('calculateGpaBtn');
+const resetBtn = document.getElementById('resetBtn');
+const saveBtn = document.getElementById('saveBtn');
+const printBtn = document.getElementById('printBtn');
+const totalCoursesEl = document.getElementById('totalCourses');
+const totalCreditsEl = document.getElementById('totalCredits');
+const resultTotalCreditsEl = document.getElementById('resultTotalCredits');
+const qualityPointsEl = document.getElementById('qualityPoints');
+const gpaValueEl = document.getElementById('gpaValue');
+const gpaProgressBarEl = document.getElementById('gpaProgressBar');
+const notification = document.getElementById('notification');
+const notificationText = document.getElementById('notificationText');
+let courseCount = 0;
+let courses = [];
+const gradePoints = {
+'A': 5.0,
+'B': 4.0,
+'C': 3.0,
+'D': 2.0,
+'E': 1.0,
+'F': 0.0
+};
+function addCourse() {
+courseCount++;
+const newRow = document.createElement('tr');
+newRow.className = 'border-b border-gray-100';
+newRow.id = `course-${courseCount}`;
+newRow.innerHTML = `
+<td class="py-3 px-4">
+<input type="text" class="w-full border-none bg-gray-50 rounded p-2 text-sm" placeholder="e.g. MATH101" id="code-${courseCount}">
+</td>
+<td class="py-3 px-4">
+<div class="flex gap-2">
+<div class="relative flex-1">
+<select class="w-full appearance-none border-none bg-gray-50 rounded p-2 pr-8 text-sm" id="grade-${courseCount}">
+<option value="" disabled selected>Select grade</option>
+<option value="A">A</option>
+<option value="B">B</option>
+<option value="C">C</option>
+<option value="D">D</option>
+<option value="E">E</option>
+<option value="F">F</option>
+</select>
+<div class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+<div class="w-4 h-4 flex items-center justify-center text-gray-500">
+<i class="ri-arrow-down-s-line"></i>
+</div>
+</div>
+</div>
+<input type="number" class="w-20 border-none bg-gray-50 rounded p-2 text-sm" placeholder="Units" id="credits-${courseCount}" min="1" max="6">
+</div>
+</td>
+<td class="py-3 px-4">
+<button class="text-red-500 hover:text-red-700 transition-colors delete-btn" data-id="${courseCount}">
+<div class="w-5 h-5 flex items-center justify-center">
+<i class="ri-delete-bin-line"></i>
+</div>
+</button>
+</td>
+`;
+courseTable.appendChild(newRow);
+// Add event listener to delete button
+const deleteBtn = newRow.querySelector('.delete-btn');
+deleteBtn.addEventListener('click', function() {
+const courseId = this.getAttribute('data-id');
+const courseRow = document.getElementById(`course-${courseId}`);
+courseRow.remove();
+updateTotalCourses();
+});
+updateTotalCourses();
+// Add sample data for the first few courses
+if (courseCount <= 12) {
+const sampleData = [
+{ code: 'MTH101', title: 'ELEMENTARY MATHEMATICS', credits: 2, grade: 'A' },
+{ code: 'GST111', title: 'COMMUNICATION IN ENGLISH', credits: 2, grade: 'B+' },
+{ code: 'WSU-GST113', title: 'USE OF LIBARY', credits: 2, grade: 'A-' },
+{ code: 'PHY101', title: 'GENERAL PHYSICS I', credits: 2, grade: 'B' },
+{ code: 'PHY107', title: 'PHYSICS PRACTICAL', credits: 1, grade: 'A' },
+{ code: 'COS101', title: 'INTRODUCTION TO COMPUTER SCIENCE', credits: 3, grade: 'B+' },
+{ code: 'BIO101', title: 'GENERAL BIOLOGY I', credits: 2, grade: 'B+' },
+{ code: 'BIO107', title: 'BIOLOGY PRACTICAL', credits: 1, grade: 'A-' },
+{ code: 'CHM101', title: 'GENERAL CHEMISTRY I', credits: 2, grade: 'B' },
+{ code: 'CHM107', title: 'CHEMISTRY PRACTICAL', credits: 1, grade: 'A' },
+{ code: 'WSU-COS103', title: 'INTRODUCTION TO COMPUTER HARDWARE', credits: 2, grade: 'A' },
+{ code: 'STA111', title: 'DESCRIPTIVE STATISTICS', credits: 3, grade: 'A' },
+{ code: ''}
+
+
+
+];
+if (sampleData[courseCount - 1]) {
+const data = sampleData[courseCount - 1];
+document.getElementById(`code-${courseCount}`).value = data.code;
+document.getElementById(`title-${courseCount}`).value = data.title;
+document.getElementById(`credits-${courseCount}`).value = data.credits;
+document.getElementById(`grade-${courseCount}`).value = data.grade;
+}
+}
+}
+function updateTotalCourses() {
+const courseRows = courseTable.querySelectorAll('tr');
+let totalCredits = 0;
+courseRows.forEach(row => {
+const courseId = row.id.split('-')[1];
+const creditsInput = document.getElementById(`credits-${courseId}`);
+if (creditsInput && creditsInput.value) {
+const credits = parseFloat(creditsInput.value);
+if (!isNaN(credits) && credits > 0) {
+totalCredits += credits;
+}
+}
+});
+totalCoursesEl.textContent = courseRows.length;
+totalCreditsEl.textContent = totalCredits.toFixed(1);
+resultTotalCreditsEl.textContent = totalCredits.toFixed(1);
+}
+function calculateGPA() {
+const studentName = document.getElementById('studentName').value;
+const department = document.getElementById('department').value;
+const matricNo = document.getElementById('matricNo').value;
+if (!studentName || !matricNo || !department) {
+showNotification('Please enter your name, matric number and department', 'error');
+return;
+}
+const courseRows = courseTable.querySelectorAll('tr');
+let totalCredits = 0;
+let totalPoints = 0;
+let isValid = true;
+courseRows.forEach(row => {
+const courseId = row.id.split('-')[1];
+const codeInput = document.getElementById(`code-${courseId}`);
+const gradeSelect = document.getElementById(`grade-${courseId}`);
+const creditsInput = document.getElementById(`credits-${courseId}`);
+if (!codeInput.value || !gradeSelect.value || !creditsInput.value) {
+isValid = false;
+row.classList.add('bg-red-50');
+setTimeout(() => {
+row.classList.remove('bg-red-50');
+}, 2000);
+return;
+}
+const credits = parseFloat(creditsInput.value);
+totalCredits += credits;
+const gradePoint = gradePoints[gradeSelect.value];
+totalPoints += (gradePoint * credits);
+});
+if (!isValid) {
+showNotification('Please fill in all course information', 'error');
+return;
+}
+if (totalCredits === 0) {
+showNotification('Please add at least one course with credits', 'error');
+return;
+}
+const gpa = totalPoints / totalCredits;
+resultTotalCreditsEl.textContent = totalCredits;
+qualityPointsEl.textContent = totalPoints.toFixed(2);
+gpaValueEl.textContent = gpa.toFixed(2);
+// Update progress bar
+const progressPercentage = (gpa / 5) * 100;
+gpaProgressBarEl.style.width = `${progressPercentage}%`;
+// Set progress bar color based on GPA
+if (gpa >= 3.5) {
+gpaProgressBarEl.className = 'progress-bar-fill bg-green-500';
+} else if (gpa >= 3.0) {
+gpaProgressBarEl.className = 'progress-bar-fill bg-primary';
+} else if (gpa >= 2.0) {
+gpaProgressBarEl.className = 'progress-bar-fill bg-yellow-500';
+} else {
+gpaProgressBarEl.className = 'progress-bar-fill bg-red-500';
+}
+showNotification('GPA calculated successfully!', 'success');
+}
+function resetForm() {
+document.getElementById('studentName').value = '';
+document.getElementById('matricNo').value = '';
+document.getElementById('department').value = '';
+courseTable.innerHTML = '';
+totalCoursesEl.textContent = '0';
+totalCreditsEl.textContent = '0';
+resultTotalCreditsEl.textContent = '0';
+qualityPointsEl.textContent = '0.00';
+gpaValueEl.textContent = '0.00';
+gpaProgressBarEl.style.width = '0%';
+courseCount = 0;
+showNotification('Form has been reset', 'success');
+// Add initial course row
+addCourse();
+}
+function showNotification(message, type) {
+notificationText.textContent = message;
+if (type === 'error') {
+notification.classList.remove('bg-green-500');
+notification.classList.add('bg-red-500');
+} else {
+notification.classList.remove('bg-red-500');
+notification.classList.add('bg-green-500');
+}
+notification.classList.remove('translate-x-full');
+setTimeout(() => {
+notification.classList.add('translate-x-full');
+}, 3000);
+}
+// Event listeners
+addCourseBtn.addEventListener('click', addCourse);
+calculateGpaBtn.addEventListener('click', calculateGPA);
+resetBtn.addEventListener('click', resetForm);
+saveBtn.addEventListener('click', function() {
+showNotification('Results saved successfully!', 'success');
+});
+printBtn.addEventListener('click', function() {
+window.print();
+});
+
+calculateCGPABtn.addEventListener('click', function() {
+  const previousCGPA = parseFloat(previousCGPAInput.value);
+  const previousCredits = parseFloat(previousCreditsInput.value);
+  
+  if (isNaN(previousCGPA) || isNaN(previousCredits)) {
+    showNotification('Please enter valid previous CGPA and credits', 'error');
+    return;
+  }
+  
+  if (previousCGPA < 0 || previousCGPA > 5) {
+    showNotification('Previous CGPA must be between 0 and 5', 'error');
+    return;
+  }
+  
+  if (previousCredits < 0) {
+    showNotification('Previous credits cannot be negative', 'error');
+    return;
+  }
+
+  // Get current semester GPA and credits
+  const gpa = parseFloat(gpaValueEl.textContent);
+  const currentCredits = parseFloat(resultTotalCreditsEl.textContent);
+  
+  if (isNaN(gpa) || isNaN(currentCredits)) {
+    showNotification('Please calculate current semester GPA first', 'error');
+    return;
+  }
+
+  // Calculate new CGPA
+  const totalCredits = previousCredits + currentCredits;
+  const newCGPA = ((previousCGPA * previousCredits) + (gpa * currentCredits)) / totalCredits;
+
+  // Update display
+  currentGPASpan.textContent = gpa.toFixed(2);
+  currentCreditsSpan.textContent = currentCredits;
+  newCGPASpan.textContent = newCGPA.toFixed(2);
+  totalCumulativeCreditsSpan.textContent = totalCredits;
+
+  showNotification('CGPA calculated successfully!', 'success');
+});
+// Initialize with one course
+addCourse();
+// Add event listeners to update total credits when credit values change
+document.addEventListener('input', function(e) {
+if (e.target.id && e.target.id.startsWith('credits-')) {
+const value = parseFloat(e.target.value);
+if (value < 0) {
+e.target.value = 0;
+} else if (value > 6) {
+e.target.value = 6;
+}
+updateTotalCourses();
+}
+});
+
+const departmentSelect = document.getElementById('department');
+const levelSelect = document.getElementById('level');
+const semesterSelect = document.getElementById('semester');
+
+const sampleCourses = [
+  { code: 'NUR101', title: 'Introduction to Nursing', credits: 3, grade: '' },
+  { code: 'NUR102', title: 'Anatomy and Physiology I', credits: 3, grade: '' },
+  { code: 'NUR103', title: 'Biochemistry for Nurses', credits: 2, grade: '' },
+  { code: 'NUR104', title: 'Nursing Ethics', credits: 2, grade: '' },
+  { code: 'NUR105', title: 'Health Assessment', credits: 3, grade: '' },
+  { code: 'NUR106', title: 'Microbiology for Nurses', credits: 2, grade: '' },
+  { code: 'NUR107', title: 'Pharmacology I', credits: 2, grade: '' },
+  { code: 'NUR108', title: 'Pathophysiology I', credits: 2, grade: '' },
+  { code: 'NUR109', title: 'Nursing Informatics', credits: 2, grade: '' },
+  { code: 'NUR110', title: 'Community Health Nursing I', credits: 3, grade: '' },
+];
+
+function addSampleCourses() {
+  courseTable.innerHTML = ''; // Clear existing courses
+  sampleCourses.forEach((course, index) => {
+    const newRow = document.createElement('tr');
+    newRow.className = 'border-b border-gray-100';
+    newRow.id = `course-${index + 1}`;
+    newRow.innerHTML = `
+      <td class="py-3 px-4">
+        <input type="text" class="w-full border-none bg-gray-50 rounded p-2 text-sm" value="${course.code}" readonly>
+      </td>
+      <td class="py-3 px-4">
+        <div class="flex gap-2">
+          <div class="relative flex-1">
+            <select class="w-full appearance-none border-none bg-gray-50 rounded p-2 pr-8 text-sm">
+              <option value="" disabled selected>Select grade</option>
+              <option value="A">A</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+              <option value="D">D</option>
+              <option value="E">E</option>
+              <option value="F">F</option>
+            </select>
+            <div class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+              <div class="w-4 h-4 flex items-center justify-center text-gray-500">
+                <i class="ri-arrow-down-s-line"></i>
+              </div>
+            </div>
+          </div>
+          <input type="number" class="w-20 border-none bg-gray-50 rounded p-2 text-sm" value="${course.credits}" readonly>
+        </div>
+      </td>
+      <td class="py-3 px-4">
+        <button class="text-red-500 hover:text-red-700 transition-colors delete-btn" data-id="${index + 1}">
+          <div class="w-5 h-5 flex items-center justify-center">
+            <i class="ri-delete-bin-line"></i>
+          </div>
+        </button>
+      </td>
+    `;
+    courseTable.appendChild(newRow);
+  });
+}
+
+function checkConditions() {
+  const department = departmentSelect.value;
+  const level = levelSelect.value;
+  const semester = semesterSelect.value;
+
+  if (department === 'Nursing' && level === '100' && semester === '2') {
+    addSampleCourses();
+  }
+}
+
+departmentSelect.addEventListener('change', checkConditions);
+levelSelect.addEventListener('change', checkConditions);
+semesterSelect.addEventListener('change', checkConditions);
+});
+</script>
+</body>
+</html>
